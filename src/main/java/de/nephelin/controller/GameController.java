@@ -48,7 +48,6 @@ public class GameController {
     }
 
     public void receive(Session session, JsonObject msg) {
-        LOGGER.info(msg.toString());
         switch (msg.getString("action")) {
             case "newGame":
                 newGame(session);

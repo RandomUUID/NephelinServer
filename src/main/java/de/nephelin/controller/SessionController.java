@@ -1,7 +1,10 @@
 package de.nephelin.controller;
 
+import sun.rmi.runtime.Log;
+
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +42,7 @@ public class SessionController {
     public void sendMessage(Session session, JsonObject msg) {
         if (session.isOpen()) {
             try {
+
                 session.getBasicRemote().sendText(msg.toString());
                 LOGGER.info("Send: " + msg.toString());
             } catch (IOException e) {
@@ -50,7 +54,18 @@ public class SessionController {
     public void receiveMessage(Session session, JsonObject msg) {
         LOGGER.info("Inc from: " + session.getId());
         String cmd = msg.getString("cmd");
-        LOGGER.info(cmd);
+        String setACK = "FALSE";
+
+        try{
+            setACK = msg.getString("setACK");
+        } catch (Exception e){
+        }
+
+        if (cmd.equals("response")){
+            LOGGER.info("ACK:   "+ msg.getString("payload") + " received");
+
+        }
+
         if (cmd.equals("relay")) {
             switch (msg.getString("receiver")) {
                 case "GameController":
@@ -63,6 +78,19 @@ public class SessionController {
         } else {
             LOGGER.info("WOOPS");
         }
+
+        if(setACK.equals("TRUE")){
+            JsonObject retMsg = Json.createObjectBuilder()
+                    .add("cmd", "response")
+                    .add("receiver", msg.get("sender"))
+                    .add("sender", msg.get("receiver"))
+                    .add("payload", msg.getString("cmd"))
+                    .add("setACK", "FALSE")
+
+                    .build();
+            sendMessage(session, retMsg);
+        }
+
     }
 
     public static SessionController getInstance() {

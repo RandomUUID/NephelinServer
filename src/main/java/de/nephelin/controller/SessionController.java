@@ -30,7 +30,7 @@ public class SessionController {
     public void joinWaitingRoom(Session session) {
         LOGGER.info(session.getId() + " joined the waiting room.");
         JsonObject msg = Json.createObjectBuilder()
-                .add("cmd", "wait").build();
+                .add("command", "wait").build();
         sendMessage(session, msg);
         waitingRoom.add(session);
     }
@@ -53,18 +53,12 @@ public class SessionController {
 
     public void receiveMessage(Session session, JsonObject msg) {
         LOGGER.info("Inc from: " + session.getId());
-        String cmd = msg.getString("cmd");
-        String setACK = "FALSE";
-
-        try{
-            setACK = msg.getString("setACK");
-        } catch (Exception e){
+        if ( msg.containsKey("command") ) {
+            LOGGER.info("BONKERS!");
         }
+        String cmd = msg.getString("command");
+        String ack = "false";
 
-        if (cmd.equals("response")){
-            LOGGER.info("ACK:   "+ msg.getString("payload") + " received");
-
-        }
 
         if (cmd.equals("relay")) {
             switch (msg.getString("receiver")) {
@@ -79,18 +73,27 @@ public class SessionController {
             LOGGER.info("WOOPS");
         }
 
-        if(setACK.equals("TRUE")){
+        //Acknowledge Managment
+        try{
+            ack = msg.getString("ack");
+        } catch (Exception e){
+        }
+        //Incoming Acknowledge
+        if (cmd.equals("response")){
+            LOGGER.info("ACK:   "+ msg.getString("payload") + " received");
+        }
+        //Outgoing Acknowledge
+        if(ack.equals("true")){
             JsonObject retMsg = Json.createObjectBuilder()
-                    .add("cmd", "response")
+                    .add("command", "response")
                     .add("receiver", msg.get("sender"))
                     .add("sender", msg.get("receiver"))
-                    .add("payload", msg.getString("cmd"))
-                    .add("setACK", "FALSE")
+                    .add("payload", msg.getString("command"))
+                    .add("ack", "false")
 
                     .build();
             sendMessage(session, retMsg);
         }
-
     }
 
     public static SessionController getInstance() {

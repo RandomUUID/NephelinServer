@@ -1,0 +1,43 @@
+
+/*Message Broker Nephelin Protocol*/
+
+
+/*Message Model*/
+{
+"command":	"response|relay(singlepoint|group|all)|wait|configure|log",
+"receiver":	"Component.name| Component.group",
+"sender":	"Component.name",
+"action":	"Component.action",
+"payload":	"JSON.Object|String",
+"setACK" : "true | false"
+}
+
+/*Message Examples*/
+{
+"command":	"relay",
+"receiver":	"GameController",
+"sender":	"ClientSessionController",
+"action":	"loadGame",
+"payload":	"GAME_ID"
+"setACK": "TRUE"
+}
+
+{
+"command":	"relay",
+"receiver":	"GameController",
+"sender":	"ClientSessionController",
+"action":	"newGame",
+"payload":	""
+}
+
+{
+"command":	"relay",
+"receiver":	"ClientSessionController",
+"sender":	"GameController",
+"action":	"startGame",
+"payload":	"GAME_SESSION"
+}
+
+
+
+

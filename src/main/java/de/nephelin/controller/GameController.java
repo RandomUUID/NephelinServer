@@ -27,7 +27,7 @@ public class GameController {
         games.put(id, new Game(id));
         JsonObject payload = Json.createObjectBuilder().add("game_id",id.toString()).build();
         JsonObject msg = Json.createObjectBuilder()
-                .add("cmd", "relay")
+                .add("command", "relay")
                 .add("receiver", "sidepanel")
                 .add("action", "joinGame")
                 .add("payload",payload)
@@ -39,7 +39,7 @@ public class GameController {
         JsonObject payload = msg.getJsonObject("payload");
         LOGGER.info("Joining Game: " + payload.getString("game_id"));
         JsonObject response = Json.createObjectBuilder()
-                .add("cmd", "log")
+                .add("command", "log")
                 .add("receiver", "board")
                 .add("action", "init")
                 .add("payload",payload)
@@ -48,7 +48,6 @@ public class GameController {
     }
 
     public void receive(Session session, JsonObject msg) {
-        LOGGER.info(msg.toString());
         switch (msg.getString("action")) {
             case "newGame":
                 newGame(session);

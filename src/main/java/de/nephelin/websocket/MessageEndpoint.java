@@ -28,7 +28,7 @@ public class MessageEndpoint {
     public void onOpen(Session session) {
         LOGGER.info( "Opening Session: " + session.getId());
         SessionController.getInstance().joinWaitingRoom(session);
-        JsonObject msg = Json.createObjectBuilder().add("cmd", "log")
+        JsonObject msg = Json.createObjectBuilder().add("command", "log")
                 .add("payload", "heavy").build();
         SessionController.getInstance().sendMessage(session, msg);
     }

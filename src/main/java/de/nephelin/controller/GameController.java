@@ -28,7 +28,7 @@ public class GameController {
         JsonObject payload = Json.createObjectBuilder().add("game_id",id.toString()).build();
         JsonObject msg = Json.createObjectBuilder()
                 .add("command", "relay")
-                .add("receiver", "sidepanel")
+                .add("receiver", "mainpanel")
                 .add("action", "joinGame")
                 .add("payload",payload)
         .build();

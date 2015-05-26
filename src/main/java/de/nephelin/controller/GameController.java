@@ -30,9 +30,17 @@ public class GameController {
                 .add("command", "relay")
                 .add("receiver", "mainpanel")
                 .add("action", "joinGame")
-                .add("payload",payload)
+                .add("payload", payload)
         .build();
         SessionController.getInstance().sendMessage(session, msg);
+
+        //TODO Hacky!
+        JsonObject msg2 = Json.createObjectBuilder()
+                .add("command", "relay")
+                .add("receiver", "menu")
+                .add("action", "init")
+                .build();
+        SessionController.getInstance().sendMessage(session, msg2);
     }
 
     private void joinGame(Session session, JsonObject msg) {

@@ -1,19 +1,19 @@
+/**
+ * Created by sirmonkey on 4/2/15.
+ */
+
 package de.nephelin.controller;
 
-import sun.rmi.runtime.Log;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**
- * Created by sirmonkey on 4/2/15.
- */
+
 public class SessionController {
 
     private static final Logger LOGGER = Logger.getLogger(SessionController.class.getName());
@@ -24,7 +24,7 @@ public class SessionController {
 
     private SessionController() {
         waitingRoom = new ArrayList<Session>();
-       // map = new HashMap<Board, Session>();
+        // map = new HashMap<Board, Session>();
     }
 
     public void joinWaitingRoom(Session session) {

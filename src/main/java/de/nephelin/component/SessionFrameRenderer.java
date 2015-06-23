@@ -22,9 +22,11 @@ import de.nephelin.model.SessionFrame;
 @ResourceDependencies({
         @ResourceDependency(library = "javax.faces", name = "jsf.js", target = "head"),
         @ResourceDependency(library = "javascript", name = "jquery.js", target = "head"),
-        @ResourceDependency(library = "javascript", name = "bundle.js", target = "head")
-}
-)
+        @ResourceDependency(library = "javascript", name = "bundle.js", target = "head"),
+        @ResourceDependency(library = "css", name = "normalize.css", target = "head"),
+        @ResourceDependency(library = "css", name = "foundation.css", target = "head"),
+        @ResourceDependency(library = "css", name = "nephelin.css", target = "head")
+})
 @FacesRenderer(componentFamily = "de.nephelin.model.SessionFrame", rendererType = "de.nephelin.component.SessionFrameRenderer")
 public class SessionFrameRenderer extends Renderer {
     private static final Logger LOGGER = Logger.getLogger(SessionFrameRenderer.class.getName());
@@ -41,27 +43,35 @@ public class SessionFrameRenderer extends Renderer {
 
         SessionFrame sessionFrame = (SessionFrame) component;
         ResponseWriter writer = context.getResponseWriter();
-
         // HTML5 Fun
-        writer.startElement("div", component);
-        writer.writeAttribute("id", component.getId(), null);
-        writer.startElement("p", component);
-        writer.write("WOOOOP!");
-        writer.endElement("p");
+        writer.startElement("div",component);
+        writer.writeAttribute("class", "row", null);
+        writer.startElement("div",component);
+        writer.writeAttribute("class", "large-9 large-offset-2 columns", null);
+        writer.startElement("ul", component);
+        writer.writeAttribute("class", "menu", null);
+        writer.endElement("ul");
+        writer.endElement("div");
         writer.endElement("div");
 
-        writer.startElement("div", component);
-        writer.writeAttribute("id", "SidePanel", null);
+        writer.startElement("div",component);
+        writer.writeAttribute("class", "row", null);
+        writer.startElement("div",component);
+        writer.writeAttribute("class", "large-9 large-offset-2 columns", null);
         writer.startElement("canvas", component);
         writer.writeAttribute("id", "cv", null);
-        writer.writeAttribute("width", "800", null);
-        writer.writeAttribute("height", "700", null);
+        writer.writeAttribute("width", "720", null);
+        writer.writeAttribute("height", "576", null);
         writer.endElement("canvas");
         writer.endElement("div");
+        writer.endElement("div");
 
-        // Script tag to initialize the JavaScript.
-        writer.startElement("script", component);
-        writer.write("console.log('Hello Darkness my old friend')");
-        writer.endElement("script");
+        writer.startElement("div", component);
+        writer.writeAttribute("class", "context-menu", null);
+        writer.startElement("ul", component);
+        writer.writeAttribute("class", "list", null);
+        writer.endElement("ul");
+        writer.endElement("div");
+
     }
 }
